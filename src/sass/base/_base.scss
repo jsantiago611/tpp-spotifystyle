@@ -1,0 +1,507 @@
+//themepicker stuff
+
+//--------------------
+// SCSS VARIABLES
+//--------------------
+
+// Grid breakpoints
+//
+// Define the minimum and maximum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$breakpoints: (
+    md: 670px,
+    lg: 940px,
+    xl: 1260px
+);
+
+$container-max-width: 1200px;
+$container-narrow-max-width: 41rem;
+
+// Z-Index Stack
+//
+// Control the order of layers in the application
+$z-layers: (
+    'modal': 999,
+    'nav': 100,
+    'content-overlay': 30
+);
+
+// Brand Colors
+
+$codista-brand-primary: #26ffae;
+$twitter-brand-primary: #1da1f2;
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif: 'CircularLight', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+$font-family-serif: 'CircularBook', 'Noe Display', Georgia, Times, serif;
+$font-family-monospace: 'Fira Code', Menlo, Monaco, Consolas, 'Andale Mono',
+    'Courier New', monospace;
+$font-family-base: $font-family-sans-serif;
+
+$font-size-root: 100%;
+$font-size-base: 1rem;
+$line-height: 1.625;
+
+// Animation
+//
+// Default easing curves, Transitions, etc
+
+$animation-curve-fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1);
+$animation-curve-linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1);
+$animation-curve-fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1);
+$animation-curve-default: $animation-curve-fast-out-slow-in;
+
+// Misc Shared
+//
+// common shared styles
+
+$border-radius: 0.25rem;
+$spacing-x: 2rem;
+$spacing-y: 2rem;
+
+$box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+$box-shadow-elevated: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
+
+
+.themepicker {
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    background-color: var(--color-bg-offset);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s ;
+
+    &.is-open {
+        max-height: 11rem;
+    }
+
+    &__title {
+        font-family: "CircularBook";
+        font-size: 1em;
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 1px;
+        padding: 2rem 1.5rem 0;
+    }
+
+    &__list {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+        overflow-y: hidden;
+        overflow-x: auto;
+        text-align: center;
+        -webkit-overflow-scrolling: touch;
+        padding: 1rem 1.5rem 2rem;
+    }
+
+    &__item {
+        display: inline-block;
+        position: relative;
+        border-radius: 0.5em;
+        transform: scale(1);
+        transition: transform 0.2s $animation-curve-default;
+
+        & + & {
+            margin-left: 1rem;
+        }
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: $box-shadow;
+            z-index: 1;
+        }
+        &.is-active {
+            z-index: 1;
+            transform: scale(1);
+            box-shadow: 0 0 0 2px var(--color-primary) !important;
+        }
+
+        &.is-active::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 10px 12px 10px;
+            border-color: transparent transparent var(--color-primary)
+                transparent;
+            transform: translate(-50%, 1rem);
+        }
+    }
+
+    &__btn {
+        display: block;
+        padding: 1em;
+        border-radius: 0.5em;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        width: 100%;
+        text-align: center;
+        background-color: var(--color-bg);
+    }
+    &__name {
+        display: block;
+        color: var(--color-text);
+    }
+    &__palette {
+        display: block;
+        padding: 0.125em 0;
+    }
+    &__hue {
+        display: inline-block;
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 50%;
+        white-space: nowrap;
+        text-indent: 100%;
+        text-align: left;
+        overflow: hidden;
+        vertical-align: bottom;
+        box-shadow: 0 0 0 2px #ffffff;
+
+        &--primary {
+            background-color: var(--color-primary);
+        }
+        &--secondary {
+            background-color: var(--color-secondary);
+        }
+        &--border {
+            background-color: var(--color-border);
+        }
+        &--textoffset {
+            background-color: var(--color-text-offset);
+        }
+        &--text {
+            background-color: var(--color-text);
+        }
+
+        & + & {
+            margin-left: -0.3125em;
+        }
+    }
+
+    &__close {
+        display: flex;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 1.125rem;
+    }
+}
+
+/**
+ * Base Styles
+ */
+html {
+	font-size: 112.5%;
+}
+
+  @font-face {
+   font-family: 'Eksell';
+   src: url('../fonts/Eksell-Display-Medium.otf') format('opentype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+  @font-face {
+   font-family: 'Cooper';
+   src: url('../fonts/CooperLtBTLight.ttf') format('opentype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+  @font-face {
+   font-family: 'Neue';
+   src: url('../fonts/NeueHaasGroteskDisplay-Reg.otf') format('opentype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+  @font-face {
+   font-family: 'Stanley';
+   src: url('../fonts/Stanley-Regular.otf') format('opentype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+  @font-face {
+   font-family: 'CircBook';
+   src: url('../fonts/CircularStd-Book-1.otf') format('opentype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+  @font-face {
+   font-family: 'Favorit';
+   src: url('../fonts/ABCFavoritProMediumTrial.woff') format('woff');
+   src: url('../fonts/ABCFavoritProMediumTrial.woff2') format('woff2');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+  @font-face {
+   font-family: 'FavoritReg';
+   src: url('../fonts/ABCFavoritProRegularTrial.woff') format('woff');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+
+
+body {
+	background-color: $color-body-bg;
+	color: var(--color-text);
+	line-height: 1.66667;
+	text-rendering: optimizeLegibility;
+	@include font-smooth();
+}
+
+@each $style in map-keys($theme-styles) {
+	$style-suffix: "#{$style}";
+	$fonts: map-deep-get($theme-styles, $style, "fonts");
+	@each $font, $stack in $fonts {
+		$font-suffix: "#{$font}";
+		.style-#{$style-suffix} {
+			&.font-#{$font-suffix} {
+				font-family: $stack;
+			}
+		}
+	}
+}
+
+a {
+	color: inherit;
+	text-decoration: underline;
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'CircBook', 'Neue', 'Inter';
+    font-weight: 400;
+	line-height: 1.2;
+    margin: 1.25em 0 0.5em;
+    color: $color-body-text;
+    letter-spacing: -0.08em;
+
+
+	&:first-child {
+		margin-top: 0;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+h1 {
+    font-size: 8vw;
+    letter-spacing: -0.05em;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 2.22222em;
+    letter-spacing: -0.05em;
+}
+
+h3 {
+	font-size: 1.66667em;
+}
+
+h4 {
+	font-size: 1.33333em;
+}
+
+h5 {
+	font-size: 1.11111em;
+}
+
+h6 {
+	font-size: 1em;
+}
+
+mark,
+ins {
+	background-color: $color-highlight-bg;
+	color: $color-highlight-text;
+	padding: 0.125em 0.25em;
+	text-decoration: none;
+}
+
+blockquote {
+	margin: 0 0 1em;
+	padding: 0 0 0 2.22222em;
+    position: relative;
+    font-family: 'CircBook';
+    color:  rgb(72, 74, 179);
+
+
+
+
+	&:before {
+		color: currentColor;
+		content: "\201C";
+		font-size: 2.66667em;
+		left: 0;
+		line-height: 1;
+		position: absolute;
+		top: 0;
+	}
+}
+
+pre {
+	border: 1px solid $color-code-border;
+	font-size: 0.88889em;
+	line-height: 1.5;
+	margin: 0 0 1em;
+	overflow: auto;
+	padding: 1.5em;
+	white-space: pre;
+}
+
+.style-classic {
+	pre {
+		background-color: $color-code-bg;
+		border-radius:6px;
+	}
+}
+
+.style-bold {
+	pre {
+		background-color: $color-bold-code-bg;
+		border-width: 2px;
+	}
+}
+
+
+
+p,
+ul,
+ol {
+    margin: 0 0 1em;
+    font-family: "CircBook";
+    font-size: 1.2em;
+    letter-spacing: -0.03em;
+    
+}
+
+ul,
+ol {
+	padding: 0 0 0 1.5em;
+}
+
+ul {
+	list-style: disc;
+}
+
+ol {
+	list-style: decimal;
+}
+
+li > ul,
+li > ol {
+	margin-bottom: 0;
+}
+
+dt {
+	font-weight: 700;
+}
+dd {
+	margin-left: 0;
+}
+
+hr {
+	background-color: $color-hr-border;
+	border: 0;
+	color: inherit;
+	height: 1px;
+	margin: 1.11111em 0;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+.style-bold {
+	hr {
+		height: 2px;
+	}
+}
+
+/* Media */
+embed,
+iframe,
+object,
+video {
+	max-width: 100%;
+}
+
+img {
+	height: auto;
+	max-width: 100%;
+}
+
+.style-classic {
+	.site-content {
+		img {
+			border-radius: 6px;
+		}
+	}
+}
+
+figure {
+	margin: 0 0 1em;
+}
+
+figcaption {
+	color: $color-meta;
+	font-size: 0.88889em;
+	text-align: left;
+}
+
+@include media-breakpoint-down(sm) {
+	h1 {
+		font-size: 2.22222em;
+	}
+
+	h2 {
+		font-size: 1.88889em;
+	}
+
+	h3 {
+		font-size: 1.55556em;
+	}
+
+	html {
+		font-size: 100%;
+	}
+}
