@@ -274,6 +274,15 @@ html {
    font-display: swap;
 }
 
+  @font-face {
+   font-family: 'Bradford';
+   src: url('../fonts/BradfordLLRegular.woff2') format('woff2');
+   font-weight: 300;
+   font-style: normal;
+   font-display: swap;
+}
+
+
 body {
 	background-color: $color-body-bg;
 	color: var(--color-text);
