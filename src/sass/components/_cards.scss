@@ -52,7 +52,7 @@
 
 .style-classic {
 	.card {
-		border-radius: 3rem;
+		border-radius: rem;
 	}
 
 	.card__media--fill {
@@ -68,7 +68,7 @@
 
 		&.card__media--bottom {
 			img {
-				border-radius: 0rem;
+				border-radius: 0 0 6px 6px;
 			}
 		}
 
